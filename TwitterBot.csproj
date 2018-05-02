@@ -106,12 +106,19 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\IAuthConfig.cs" />
+    <Compile Include="TwitterConfig.cs" />
+    <Compile Include="StatisticsWriter.cs" />
+    <Compile Include="Interfaces\ISocialFactory.cs" />
+    <Compile Include="Interfaces\IAuth.cs" />
+    <Compile Include="Interfaces\IDataHandler.cs" />
+    <Compile Include="Interfaces\IReceiver.cs" />
     <Compile Include="Interfaces\IWriter.cs" />
-    <Compile Include="Twitter.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="Writer.cs" />
-    <Compile Include="Interfaces\ISocial.cs" />
-    <Compile Include="Interfaces\ITweetConfig.cs" />
+    <Compile Include="Interfaces\IPublisher.cs" />
+    <Compile Include="TwitterFactory.cs" />
+    <Compile Include="TwitterAuthenticator.cs" />
+    <Compile Include="StringHandler.cs" />
+    <Compile Include="TweetsReceiver.cs" />
+    <Compile Include="TwitterPublisher.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

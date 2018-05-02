@@ -1,8 +1,8 @@
 ﻿using System;
 namespace TwitterBot.Interfaces
 {
-    public interface IWriter
+    public interface IPublisher
     {
-        void WritePosts();
+        void PublishPosts();
     }
 }
