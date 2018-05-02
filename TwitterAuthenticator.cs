@@ -6,7 +6,10 @@ namespace TwitterBot
     {
         public void Auth(Interfaces.IAuthConfig config){
             Console.WriteLine("Auth()");
-            Tweetinvi.Auth.SetUserCredentials(config.ConsumerKey, config.ConsumerSecret, config.AccessToken, config.AccessToken);
+            Tweetinvi.Auth.SetUserCredentials(config.ConsumerKey,
+                                              config.ConsumerSecret,
+                                              config.AccessToken,
+                                              config.AccessTokenSecret);
             var authenticatedUser = User.GetAuthenticatedUser();
         }
     }

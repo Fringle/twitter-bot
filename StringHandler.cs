@@ -16,6 +16,7 @@ namespace TwitterBot
 
         public string[] HandleData(string data){
             Console.WriteLine("HandleData({0})", data);
+
             string[] output = new string[1];
 
             output[0] = data.StartsWith("@") ? data.Substring(1) : data;
