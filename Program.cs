@@ -6,22 +6,23 @@ namespace TwitterBot
     {
         public static void Main(string[] args)
         {
-            Interfaces.ISocialFactory factory = new TwitterFactory();
-            Interfaces.IConfig config = factory.CreateConfig();
-            Interfaces.ISocial social = factory.CreateSocial(config);
+            Config config = new Config();
+            var twitter = new Twitter(config);
 
-            social.Auth();
+            twitter.Auth();
 
-            Interfaces.IWriter writer = factory.CreateWriter(config);
+            var writer = new Writer(config);
+            twitter.SetWriter(writer);
 
-            social.SetWriter(writer);
-
+            Console.WriteLine("Пожалуйста введите логин twitter-пользователя");
             string inputData = Console.ReadLine();
-            while(inputData != "/break"){
+            while(!inputData.Equals("")){
 
-                social.GetData(inputData);
-                social.HandleData();
-                social.PushPosts();
+                twitter.GetData(inputData);
+                twitter.HandleData();
+                twitter.PushPosts();
+
+                Console.WriteLine("Пожалуйста введите логин twitter-пользователя");
                 inputData = Console.ReadLine();
 
             }

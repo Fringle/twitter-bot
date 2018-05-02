@@ -100,21 +100,22 @@
     <Reference Include="Tweetinvi.WebLogic">
       <HintPath>..\packages\TweetinviAPI.3.0.0\lib\net461\Tweetinvi.WebLogic.dll</HintPath>
     </Reference>
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Interfaces\ISocialFactory.cs" />
-    <Compile Include="Interfaces\IConfig.cs" />
-    <Compile Include="Interfaces\ISocial.cs" />
+    <Compile Include="Interfaces\IAuthConfig.cs" />
     <Compile Include="Interfaces\IWriter.cs" />
-    <Compile Include="TwitterFactory.cs" />
     <Compile Include="Twitter.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Writer.cs" />
+    <Compile Include="Interfaces\ISocial.cs" />
+    <Compile Include="Interfaces\ITweetConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
