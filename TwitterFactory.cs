@@ -37,7 +37,7 @@ namespace TwitterBot
 
         public Interfaces.IPublisher CreatePublisher(){
             Console.WriteLine("CreatePublisher()");
-            return new TwitterPublisher();
+            return new TwitterPublisher(this.writer);
         }
     }
 }

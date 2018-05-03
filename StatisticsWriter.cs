@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 namespace TwitterBot
 {
     public class StatisticsWriter : Interfaces.IWriter
     {
         private TweetsReceiver receiver;
         private TwitterConfig config;
+        private List<string> posts;
+
 
         public StatisticsWriter(TwitterConfig config, TweetsReceiver receiver)
         {
@@ -16,10 +17,20 @@ namespace TwitterBot
             this.receiver = receiver;
         }
 
+        public List<string> Posts {
+            get { return this.posts; }
+        }
+
         public void WritePosts(){
             Console.WriteLine("Write()");
             Dictionary<char,double> statistic = GetStatistic();
-            Console.WriteLine(String.Join("", statistic));
+
+            WriteStatisticInConsole(statistic);
+
+            this.posts = CreatePosts(statistic);
+            foreach(var post in this.posts){
+                Console.WriteLine(post);
+            }
         }
 
         private Dictionary<char, double> GetStatistic(){
@@ -31,7 +42,7 @@ namespace TwitterBot
             }
 
             string onlyLetters = new string(textWithLowerLetters.Where(x => char.IsLetter(x)).ToArray());
-            Dictionary<char,int> charCounts = onlyLetters.OrderBy(x => x).GroupBy(x => x).ToDictionary(x => x.Key, x => x.Count());
+            Dictionary<char,int> charCounts = onlyLetters.OrderByDescending(x => x).GroupBy(x => x).ToDictionary(x => x.Key, x => x.Count());
             int count = onlyLetters.Length;
 
 
@@ -41,6 +52,53 @@ namespace TwitterBot
             }
 
             return statistic;
+        }
+
+        private void WriteStatisticInConsole(Dictionary<char,double> statistic){
+            string statisticMessage = "@" + receiver.Name + ", статистика для последних 5 твитов:\n{";
+            Console.WriteLine(statisticMessage);
+            foreach(KeyValuePair<char,double> pair in statistic){
+                Console.WriteLine("'{0}' : {1}", pair.Key, pair.Value.ToString().Replace(",", "."));
+            }
+            Console.WriteLine("}");
+        }
+
+        private List<string> CreatePosts(Dictionary<char,double> statistic){
+            Stack<string> jsonStatistic = GetJsonStatistic(statistic);
+
+            List<string> finalePosts = new List<string>();
+
+            string statisticMessage = "@" + receiver.Name + ", статистика для последних 5 твитов:\n{";
+            string postText = statisticMessage;
+
+            while(jsonStatistic.Count != 0){
+                if(postText.Length + jsonStatistic.Peek().Length + 1 <= this.config.TweetLength){
+                    postText += postText.EndsWith("{") ? jsonStatistic.Pop() : "," + jsonStatistic.Pop();
+
+                    if(jsonStatistic.Count == 0){
+                        postText += "}";
+                        finalePosts.Add(postText);
+                    }
+
+                } else {
+                    postText += "}";
+                    finalePosts.Add(postText);
+                    postText = statisticMessage;
+                }
+            }
+
+            return finalePosts;
+        }
+
+        private Stack<string> GetJsonStatistic(Dictionary<char,double> statistic){
+            //statistic.Reverse();
+            Stack<string> jsonStatistic = new Stack<string>();
+            foreach (KeyValuePair<char, double> pair in statistic)
+            {
+                string letterStatistic = " \"" + pair.Key + "\" : " + pair.Value.ToString().Replace(",", ".");
+                jsonStatistic.Push(letterStatistic);
+            }
+            return jsonStatistic;
         }
     }
 }

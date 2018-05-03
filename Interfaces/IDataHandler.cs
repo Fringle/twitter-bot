@@ -3,7 +3,7 @@ namespace TwitterBot.Interfaces
 {
     public interface IDataHandler
     {
-        string NeededData();
+        string Info();
 
         string[] HandleData(string data);
     }

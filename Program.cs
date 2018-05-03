@@ -6,7 +6,6 @@ namespace TwitterBot
     {
         public static void Main(string[] args)
         {
-
             Interfaces.ISocialFactory social = new TwitterFactory();
 
             Interfaces.IAuthConfig config = social.CreateConfig();
@@ -19,17 +18,24 @@ namespace TwitterBot
             Interfaces.IWriter writer = social.CreateWriter();
             Interfaces.IPublisher publisher = social.CreatePublisher();
 
-            Console.WriteLine(handler.NeededData());
+            Console.WriteLine(handler.Info());
             string inputData = Console.ReadLine();
 
             while(!inputData.Equals("")){
 
-                string[] handledData = handler.HandleData(inputData);
-                receiver.Receive(handledData);
-                writer.WritePosts();
-                publisher.PublishPosts();
+                try
+                {
+                    string[] handledData = handler.HandleData(inputData);
+                    receiver.Receive(handledData);
+                    writer.WritePosts();
+                    publisher.PublishPosts();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
 
-                Console.WriteLine(handler.NeededData());
+                Console.WriteLine(handler.Info());
                 inputData = Console.ReadLine();
 
             }

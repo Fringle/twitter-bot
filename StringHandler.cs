@@ -10,12 +10,15 @@ namespace TwitterBot
             this.config = config;
         }
 
-        public string NeededData(){
+        public string Info(){
             return this.config.InputData;
         }
 
         public string[] HandleData(string data){
             Console.WriteLine("HandleData({0})", data);
+
+            double str = 5.82;
+            Console.WriteLine(str.ToString().Replace(",", "."));
 
             string[] output = new string[1];
 
