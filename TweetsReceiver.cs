@@ -27,10 +27,11 @@ namespace TwitterBot
             var user = User.GetUserFromScreenName(this._name);
 
             if(user == null){
-                throw new Exception("Не смогли найти такого пользователя");
+                throw new Exception("Пользователь не найден.");
             }
 
             var tweets = Timeline.GetUserTimeline(this._name, this.config.TweetsCount);
+            _data = "";
 
             if(tweets == null){
                 return;

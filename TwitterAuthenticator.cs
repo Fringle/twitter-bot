@@ -10,7 +10,11 @@ namespace TwitterBot
                                               config.ConsumerSecret,
                                               config.AccessToken,
                                               config.AccessTokenSecret);
+            
             var authenticatedUser = User.GetAuthenticatedUser();
+            if(authenticatedUser == null){
+                throw new Exception("Пользователь не авторизован. Проверьте правильность авторизационных данных.");
+            }
         }
     }
 }

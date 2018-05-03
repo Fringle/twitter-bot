@@ -28,6 +28,8 @@ namespace TwitterBot
             WriteStatisticInConsole(statistic);
 
             this.posts = CreatePosts(statistic);
+
+
             foreach(var post in this.posts){
                 Console.WriteLine(post);
             }
@@ -64,34 +66,33 @@ namespace TwitterBot
         }
 
         private List<string> CreatePosts(Dictionary<char,double> statistic){
-            Stack<string> jsonStatistic = GetJsonStatistic(statistic);
+            List<string> finalPosts = new List<string>();
 
-            List<string> finalePosts = new List<string>();
+            Stack<string> jsonStatistic = GetJsonStatistic(statistic);
 
             string statisticMessage = "@" + receiver.Name + ", статистика для последних 5 твитов:\n{";
             string postText = statisticMessage;
 
             while(jsonStatistic.Count != 0){
-                if(postText.Length + jsonStatistic.Peek().Length + 1 <= this.config.TweetLength){
+                if (postText.Length + jsonStatistic.Peek().Length + 1 <= this.config.TweetLength)
+                {
                     postText += postText.EndsWith("{") ? jsonStatistic.Pop() : "," + jsonStatistic.Pop();
-
-                    if(jsonStatistic.Count == 0){
-                        postText += "}";
-                        finalePosts.Add(postText);
-                    }
-
-                } else {
+                }
+                else
+                {
                     postText += "}";
-                    finalePosts.Add(postText);
+                    finalPosts.Add(postText);
                     postText = statisticMessage;
                 }
             }
 
-            return finalePosts;
+            postText += "}";
+            finalPosts.Add(postText);
+
+            return finalPosts;
         }
 
         private Stack<string> GetJsonStatistic(Dictionary<char,double> statistic){
-            //statistic.Reverse();
             Stack<string> jsonStatistic = new Stack<string>();
             foreach (KeyValuePair<char, double> pair in statistic)
             {

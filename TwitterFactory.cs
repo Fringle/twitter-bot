@@ -20,7 +20,7 @@ namespace TwitterBot
 
         public Interfaces.IDataHandler CreateDataHandler(){
             Console.WriteLine("CreateDataHandler()");
-            return new StringHandler(this.config);
+            return new StringHandler();
         }
 
         public Interfaces.IReceiver CreateReceiver(){

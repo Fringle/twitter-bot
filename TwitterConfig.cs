@@ -6,7 +6,6 @@ namespace TwitterBot
     {
         private string _ConsumerKey, _ConsumerSecret, _AccessToken, _AccessTokenSecret;
         private int _TweetLenght, _TweetsCount;
-        private string _InputData;
         private const int TwitterLimitLength = 280;
         private const int TweetinviMaxTweets = 40;
 
@@ -18,13 +17,10 @@ namespace TwitterBot
             this._AccessToken = ConfigurationManager.AppSettings["AccessToken"];
             this._AccessTokenSecret = ConfigurationManager.AppSettings["AccessTokenSecret"];
 
-            int length = Convert.ToInt32(ConfigurationManager.AppSettings["TweetLength"], 10);
-            this._TweetLenght = length > TwitterLimitLength || length < 1 ? TwitterLimitLength : length;
+            this._TweetLenght = TwitterLimitLength;
                 
             int count = Convert.ToInt32(ConfigurationManager.AppSettings["TweetsCount"], 10);
             this._TweetsCount = count > TweetinviMaxTweets || count < 1 ? TweetinviMaxTweets : count;
-
-            this._InputData = ConfigurationManager.AppSettings["InputData"];
         }
 
         public string ConsumerKey{
@@ -54,11 +50,5 @@ namespace TwitterBot
         {
             get { return this._TweetsCount; }
         }
-
-        public string InputData
-        {
-            get { return this._InputData; }
-        }
-
     }
 }

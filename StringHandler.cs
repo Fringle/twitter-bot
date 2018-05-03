@@ -3,26 +3,25 @@ namespace TwitterBot
 {
     public class StringHandler : Interfaces.IDataHandler
     {
-        private TwitterConfig config;
-
-        public StringHandler(TwitterConfig config)
-        {
-            this.config = config;
-        }
-
         public string Info(){
-            return this.config.InputData;
+            return "Введите логин Twitter пользователя:";
         }
 
         public string[] HandleData(string data){
             Console.WriteLine("HandleData({0})", data);
 
-            double str = 5.82;
-            Console.WriteLine(str.ToString().Replace(",", "."));
-
             string[] output = new string[1];
 
-            output[0] = data.StartsWith("@") ? data.Substring(1) : data;
+            string name = data.TrimStart();
+
+            int index = name.IndexOf(' ');
+            name = index <= 0 ? name : name.Substring(0, index);
+
+            name = name.StartsWith("@") ? name.Substring(1) : name;
+
+            Console.WriteLine("Используется для имени \"{0}\"", name);
+
+            output[0] = name;
 
             return output;
         }
