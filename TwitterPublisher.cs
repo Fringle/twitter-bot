@@ -4,7 +4,7 @@ namespace TwitterBot
 {
     public class TwitterPublisher : Interfaces.IPublisher
     {
-        private StatisticsWriter statisticWriter;
+        StatisticsWriter statisticWriter;
 
         public TwitterPublisher(StatisticsWriter writer){
             statisticWriter = writer;

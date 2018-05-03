@@ -4,8 +4,8 @@ namespace TwitterBot
 {
     public class TweetsReceiver : Interfaces.IReceiver
     {
-        private string _data = "", _name = "";
-        private TwitterConfig config;
+        string _data = "", _name = "";
+        TwitterConfig config;
 
         public TweetsReceiver(TwitterConfig config)
         {
@@ -21,16 +21,15 @@ namespace TwitterBot
         }
 
         public void Receive(string[] data){
-            this._name = data[0];
-            Console.WriteLine("Receive({0})", this._name);
+            _name = data[0];
 
-            var user = User.GetUserFromScreenName(this._name);
+            var user = User.GetUserFromScreenName(_name);
 
             if(user == null){
                 throw new Exception("Пользователь не найден.");
             }
 
-            var tweets = Timeline.GetUserTimeline(this._name, this.config.TweetsCount);
+            var tweets = Timeline.GetUserTimeline(_name, config.TweetsCount);
             _data = "";
 
             if(tweets == null){
@@ -38,7 +37,7 @@ namespace TwitterBot
             }
 
             foreach(var tweet in tweets){
-                this._data += tweet.Text;
+                _data += tweet.Text;
             }
         }
     }

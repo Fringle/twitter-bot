@@ -8,8 +8,6 @@ namespace TwitterBot
         }
 
         public string[] HandleData(string data){
-            Console.WriteLine("HandleData({0})", data);
-
             string[] output = new string[1];
 
             string name = data.TrimStart();

@@ -5,37 +5,35 @@ namespace TwitterBot
 {
     public class StatisticsWriter : Interfaces.IWriter
     {
-        private TweetsReceiver receiver;
-        private TwitterConfig config;
-        private List<string> posts;
+        TweetsReceiver receiver;
+        TwitterConfig config;
+        List<string> posts;
 
 
         public StatisticsWriter(TwitterConfig config, TweetsReceiver receiver)
         {
-            Console.WriteLine("Writer(config)");
             this.config = config;
             this.receiver = receiver;
         }
 
         public List<string> Posts {
-            get { return this.posts; }
+            get { return posts; }
         }
 
         public void WritePosts(){
-            Console.WriteLine("Write()");
             Dictionary<char,double> statistic = GetStatistic();
 
             WriteStatisticInConsole(statistic);
 
-            this.posts = CreatePosts(statistic);
+            posts = CreatePosts(statistic);
 
-
-            foreach(var post in this.posts){
-                Console.WriteLine(post);
-            }
+            // Можно также вывести твиты в консоль
+            //foreach(var post in posts){
+            //    Console.WriteLine(post);
+            //}
         }
 
-        private Dictionary<char, double> GetStatistic(){
+        Dictionary<char, double> GetStatistic(){
             Dictionary<char, double> statistic = new Dictionary<char, double>();
 
             string textWithLowerLetters = receiver.Data.ToLower();
@@ -56,8 +54,8 @@ namespace TwitterBot
             return statistic;
         }
 
-        private void WriteStatisticInConsole(Dictionary<char,double> statistic){
-            string statisticMessage = "@" + receiver.Name + ", статистика для последних 5 твитов:\n{";
+        void WriteStatisticInConsole(Dictionary<char,double> statistic){
+            string statisticMessage = "@" + receiver.Name + ", статистика для последних " + config.TweetsCount + " твитов:\n{";
             Console.WriteLine(statisticMessage);
             foreach(KeyValuePair<char,double> pair in statistic){
                 Console.WriteLine("'{0}' : {1}", pair.Key, pair.Value.ToString().Replace(",", "."));
@@ -65,16 +63,16 @@ namespace TwitterBot
             Console.WriteLine("}");
         }
 
-        private List<string> CreatePosts(Dictionary<char,double> statistic){
+        List<string> CreatePosts(Dictionary<char,double> statistic){
             List<string> finalPosts = new List<string>();
 
             Stack<string> jsonStatistic = GetJsonStatistic(statistic);
 
-            string statisticMessage = "@" + receiver.Name + ", статистика для последних 5 твитов:\n{";
+            string statisticMessage = "@" + receiver.Name + ", статистика для последних " + config.TweetsCount + " твитов:\n{";
             string postText = statisticMessage;
 
             while(jsonStatistic.Count != 0){
-                if (postText.Length + jsonStatistic.Peek().Length + 1 <= this.config.TweetLength)
+                if (postText.Length + jsonStatistic.Peek().Length + 1 <= config.TweetLength)
                 {
                     postText += postText.EndsWith("{") ? jsonStatistic.Pop() : "," + jsonStatistic.Pop();
                 }
@@ -92,7 +90,7 @@ namespace TwitterBot
             return finalPosts;
         }
 
-        private Stack<string> GetJsonStatistic(Dictionary<char,double> statistic){
+        Stack<string> GetJsonStatistic(Dictionary<char,double> statistic){
             Stack<string> jsonStatistic = new Stack<string>();
             foreach (KeyValuePair<char, double> pair in statistic)
             {
