@@ -1,5 +1,9 @@
 ﻿namespace TwitterBot
 {
+    /*
+     * Конкретная фабрика, реализованная под тестовое задание.
+     * К сожалению, не смог сделать связь между объектами более гибкой.
+     */
     public class TwitterFactory : Interfaces.ISocialFactory
     {
         TwitterConfig config;

@@ -2,12 +2,15 @@
 using System.Configuration;
 namespace TwitterBot
 {
+    /*
+     * Объект конфига для считывания конфигурационного файла
+     */
     public class TwitterConfig : Interfaces.IAuthConfig
     {
         string _ConsumerKey, _ConsumerSecret, _AccessToken, _AccessTokenSecret;
         int _TweetLenght, _TweetsCount;
-        const int TwitterLimitLength = 280;
-        const int TweetinviMaxTweets = 40;
+        const int TwitterLimitLength = 280; // Ограничение длины сообщения твита
+        const int TweetinviMaxTweets = 40;  // Ограничение получения твитов, задано Tweetinvi
 
         public TwitterConfig()
         {
