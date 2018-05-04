@@ -21,29 +21,28 @@ namespace TwitterBot
         }
 
         public void WritePosts(){
-            Dictionary<char,double> statistic = GetStatistic();
+            string textLastTweets = receiver.Data;
+
+            Dictionary<char,double> statistic = GetStatistic(textLastTweets);
 
             WriteStatisticInConsole(statistic);
 
             posts = CreatePosts(statistic);
-
-            // Можно также вывести твиты в консоль
-            //foreach(var post in posts){
-            //    Console.WriteLine(post);
-            //}
         }
 
-        Dictionary<char, double> GetStatistic(){
+        Dictionary<char, double> GetStatistic(string text){
             Dictionary<char, double> statistic = new Dictionary<char, double>();
 
-            string textWithLowerLetters = receiver.Data.ToLower();
-            if(textWithLowerLetters.Equals("")){
+            if(text.Equals("")){
                 return statistic;
             }
 
-            string onlyLetters = new string(textWithLowerLetters.Where(x => char.IsLetter(x)).ToArray());
-            Dictionary<char,int> charCounts = onlyLetters.OrderByDescending(x => x).GroupBy(x => x).ToDictionary(x => x.Key, x => x.Count());
-            int count = onlyLetters.Length;
+            text = text.ToLower();
+
+            text = new string(text.Where(x => char.IsLetter(x)).ToArray());
+
+            Dictionary<char,int> charCounts = text.OrderByDescending(x => x).GroupBy(x => x).ToDictionary(x => x.Key, x => x.Count());
+            int count = text.Length;
 
 
             foreach(KeyValuePair<char,int> pair in charCounts){
