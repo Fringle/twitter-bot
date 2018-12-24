@@ -19,7 +19,7 @@ namespace TwitterBot
             _AccessToken = ConfigurationManager.AppSettings["AccessToken"];
             _AccessTokenSecret = ConfigurationManager.AppSettings["AccessTokenSecret"];
 
-            _TweetLenght = TwitterLimitLength;;
+            _TweetLenght = TwitterLimitLength;
                 
             int count = Convert.ToInt32(ConfigurationManager.AppSettings["TweetsCount"], 10);
             _TweetsCount = count > TweetinviMaxTweets || count < 1 ? TweetinviMaxTweets : count;
